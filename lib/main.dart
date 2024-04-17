@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'signup.dart';
-import 'signin.dart';
+import 'package:zenhub/reminder_page.dart';
+import 'signin_page.dart';
+import 'signup_page.dart';
+import 'home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,10 +20,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: '/',
+      initialRoute: '/home',
       routes: {
-        '/': (context) => SignInPage(),
+        '/signin': (context) => SignInPage(),
         '/signup': (context) => SignUpPage(),
+        '/home': (context) => HomePage(),
+        '/reminder': (context) => ReminderPage(),
       },
     );
   }

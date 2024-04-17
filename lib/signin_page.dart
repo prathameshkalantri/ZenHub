@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'signup.dart';
+import 'home_page.dart';
+import 'signup_page.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -18,10 +19,12 @@ class _SignInPageState extends State<SignInPage> {
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
-      // Sign in successful, navigate to next screen or do something else
+      // Sign in successful, navigate to home page
+      Navigator.pushReplacementNamed(context, '/home');
     } catch (e) {
       print("Error during sign in: $e");
-      // Handle errors here
+      // Show error message to the user
+      _showErrorDialog("Invalid email or password");
     }
   }
 
@@ -29,6 +32,26 @@ class _SignInPageState extends State<SignInPage> {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => SignUpPage()),
+    );
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Error"),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("OK"),
+            ),
+          ],
+        );
+      },
     );
   }
 

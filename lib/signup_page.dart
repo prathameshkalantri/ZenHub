@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'home_page.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -8,6 +9,7 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -17,7 +19,12 @@ class _SignUpPageState extends State<SignUpPage> {
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
-      // Sign up successful, navigate to next screen or do something else
+
+      // Get the username entered by the user
+      final String username = _usernameController.text.trim();
+
+      // Navigate to the home page and pass the username as a parameter
+      Navigator.pushReplacementNamed(context, '/home', arguments: username);
     } catch (e) {
       print("Error during sign up: $e");
       // Handle errors here
@@ -35,6 +42,13 @@ class _SignUpPageState extends State<SignUpPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            TextField(
+              controller: _usernameController,
+              decoration: InputDecoration(
+                labelText: 'Username',
+              ),
+            ),
+            SizedBox(height: 12.0),
             TextField(
               controller: _emailController,
               decoration: InputDecoration(
