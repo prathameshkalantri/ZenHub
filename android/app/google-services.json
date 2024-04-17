@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "547090704053",
+    "project_id": "zenhub-9ac68",
+    "storage_bucket": "zenhub-9ac68.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547090704053:android:aac9a99ae911742d6800fc",
+        "android_client_info": {
+          "package_name": "com.example.zenhub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgOthW1HDu3XadpcB3Cr7EAjnxSgDR334"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
