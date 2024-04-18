@@ -62,12 +62,64 @@ class _SignInPageState extends State<SignInPage> {
     );
   }
 
+  void _forgotPassword() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Forgot Password"),
+          content: TextField(
+            controller: _emailController,
+            decoration: InputDecoration(
+              labelText: 'Enter your Email',
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                try {
+                  await _auth.sendPasswordResetEmail(email: _emailController.text.trim());
+                  Navigator.of(context).pop();
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Success"),
+                        content: Text("Password reset email sent. Check your inbox."),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text("OK"),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } catch (e) {
+                  print("Error sending reset password email: $e");
+                  Navigator.of(context).pop();
+                  _showErrorDialog("Error sending reset password email. Please try again.");
+                }
+              },
+              child: Text("Submit"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign In',
-            style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black)),
+        title: Text(
+          'Sign In',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+        ),
+        automaticallyImplyLeading: false, // Remove back button
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -123,6 +175,14 @@ class _SignInPageState extends State<SignInPage> {
                   'Sign In',
                   style: TextStyle(color: Colors.white), // Text color
                 ),
+              ),
+            ),
+            SizedBox(height: 8.0),
+            TextButton(
+              onPressed: _forgotPassword,
+              child: Text(
+                'Forgot Password?',
+                style: TextStyle(color:Colors.cyan),
               ),
             ),
             SizedBox(height: 8.0),
