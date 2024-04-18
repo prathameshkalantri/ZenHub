@@ -12,6 +12,13 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isObscured = true;
+
+  void _toggleObscure() {
+    setState(() {
+      _isObscured = !_isObscured;
+    });
+  }
 
   Future<void> _signUp() async {
     try {
@@ -35,7 +42,8 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign Up'),
+        title: Text('Sign Up',
+        style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black)),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -53,6 +61,10 @@ class _SignUpPageState extends State<SignUpPage> {
               controller: _emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                  borderSide: BorderSide(color: Colors.black),
+                ),
               ),
             ),
             SizedBox(height: 12.0),
@@ -60,13 +72,35 @@ class _SignUpPageState extends State<SignUpPage> {
               controller: _passwordController,
               decoration: InputDecoration(
                 labelText: 'Password',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                  borderSide: BorderSide(color: Colors.black),
+                ),
+                suffixIcon: IconButton(
+                  icon: Icon(_isObscured ? Icons.visibility : Icons.visibility_off),
+                  onPressed: _toggleObscure,
+                ),
               ),
-              obscureText: true,
+              obscureText: _isObscured,
             ),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: _signUp,
-              child: Text('Sign Up'),
+            SizedBox(height: 13.0),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _signUp,
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.cyan), // Button color
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                  ),
+                ),
+                child: Text(
+                  'Sign Up',
+                  style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold), // Text color
+                ),
+              ),
             ),
           ],
         ),
