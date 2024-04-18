@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: '/home',
+      initialRoute: '/signin',
       routes: {
         '/signin': (context) => SignInPage(),
         '/signup': (context) => SignUpPage(),
