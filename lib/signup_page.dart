@@ -57,80 +57,86 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign Up',
-            style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black)),
+        title: Text('Sign Up', style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black)),
         automaticallyImplyLeading: false, // Remove back button
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextField(
-                controller: _usernameController,
-                decoration: InputDecoration(
-                  labelText: 'Username',
-                ),
-              ),
-              SizedBox(height: 12.0),
-              TextField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
-                ),
-              ),
-              SizedBox(height: 12.0),
-              TextField(
-                controller: _passwordController,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Icon(_isObscured ? Icons.visibility : Icons.visibility_off),
-                    onPressed: _toggleObscure,
-                  ),
-                ),
-                obscureText: _isObscured,
-              ),
-              SizedBox(height: 13.0),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _signUp,
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Colors.cyan), // Button color
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextField(
+                  controller: _usernameController,
+                  decoration: InputDecoration(
+                    labelText: 'Username',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: BorderSide(color: Colors.black),
                     ),
                   ),
-                  child: Text(
-                    'Sign Up',
-                    style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold), // Text color
+                ),
+                SizedBox(height: 12.0),
+                TextField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 8.0),
-              TextButton(
-                onPressed: _navigateToSignIn,
-                child: Text(
-                  'Already have an account? Login',
-                  style: TextStyle(color:Colors.cyan),
+                SizedBox(height: 12.0),
+                TextField(
+                  controller: _passwordController,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(_isObscured ? Icons.visibility : Icons.visibility_off),
+                      onPressed: _toggleObscure,
+                    ),
+                  ),
+                  obscureText: _isObscured,
                 ),
-              ),
-            ],
+                SizedBox(height: 13.0),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: _signUp,
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(Colors.cyan), // Button color
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      'Sign Up',
+                      style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold), // Text color
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8.0),
+                TextButton(
+                  onPressed: _navigateToSignIn,
+                  child: Text(
+                    'Already have an account? Login',
+                    style: TextStyle(color:Colors.cyan),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
+

@@ -136,7 +136,8 @@ class _SettingPageState extends State<SettingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: Text('Settings',
+        style:TextStyle(fontWeight: FontWeight.bold)),
         automaticallyImplyLeading: false, // Hide the back button
         actions: [
           IconButton(
