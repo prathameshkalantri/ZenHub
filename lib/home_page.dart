@@ -8,6 +8,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Home'),
+        automaticallyImplyLeading: false, // Remove back button
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -35,10 +36,10 @@ class HomePage extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.home),
               onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
-                );
+                // Navigator.pushReplacement(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => HomePage()),
+                // );
               },
             ),
             IconButton(
