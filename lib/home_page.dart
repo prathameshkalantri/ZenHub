@@ -9,9 +9,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
+  int _selectedWorkouts = 0;
+  int _selectedDay = 1; // Default to 1st day of the month
+  int _selectedMonth = DateTime.now().month; // Default to current month
+  int _selectedYear = DateTime.now().year; // Default to current year
 
   @override
   Widget build(BuildContext context) {
+    int totalWorkouts = 12;
+    int finishedWorkouts = _selectedWorkouts + 1; // Increment by 1 to match selected workout
+    int pendingWorkouts = totalWorkouts - finishedWorkouts;
+    int timeSpent = finishedWorkouts * 20;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -74,7 +83,7 @@ class _HomePageState extends State<HomePage> {
                             SizedBox(width: 8),
                             Expanded(
                               child: Text(
-                                'Finished Workouts',
+                                'Finished Workouts: $finishedWorkouts',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -118,7 +127,7 @@ class _HomePageState extends State<HomePage> {
                                 SizedBox(width: 8),
                                 Expanded(
                                   child: Text(
-                                    'In Progress',
+                                    'Time Spent: $timeSpent minutes',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -158,7 +167,7 @@ class _HomePageState extends State<HomePage> {
                                 SizedBox(width: 8),
                                 Expanded(
                                   child: Text(
-                                    'Time Spent',
+                                    'Pending Workouts: $pendingWorkouts',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -171,6 +180,62 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 20),
+          // New dropdown menu for selecting day, month, and year
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              children: [
+                // Dropdown menu for day
+                DropdownButton<int>(
+                  value: _selectedDay,
+                  items: List.generate(31, (index) {
+                    return DropdownMenuItem<int>(
+                      value: index + 1,
+                      child: Text('${index + 1}'),
+                    );
+                  }),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedDay = value!;
+                    });
+                  },
+                ),
+                SizedBox(width: 8),
+                // Dropdown menu for month
+                DropdownButton<int>(
+                  value: _selectedMonth,
+                  items: List.generate(12, (index) {
+                    return DropdownMenuItem<int>(
+                      value: index + 1,
+                      child: Text('${_getMonthName(index + 1)}'),
+                    );
+                  }),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedMonth = value!;
+                    });
+                  },
+                ),
+                SizedBox(width: 8),
+                // Dropdown menu for year
+                DropdownButton<int>(
+                  value: _selectedYear,
+                  items: List.generate(10, (index) {
+                    return DropdownMenuItem<int>(
+                      value: 2022 + index,
+                      child: Text('${2022 + index}'),
+                    );
+                  }),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedYear = value!;
+                    });
+                  },
                 ),
               ],
             ),
@@ -188,10 +253,7 @@ class _HomePageState extends State<HomePage> {
           });
           switch (index) {
             case 0:
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomePage()),
-              );
+            // Do nothing since we are already on the HomePage
               break;
             case 1:
               Navigator.push(
@@ -228,6 +290,70 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          // Show a dropdown menu to select workouts
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Select Workout'),
+                content: DropdownButton<int>(
+                  value: _selectedWorkouts,
+                  items: List.generate(totalWorkouts, (index) {
+                    return DropdownMenuItem<int>(
+                      value: index,
+                      child: Text('Workout ${index + 1}'),
+                    );
+                  }),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedWorkouts = value!;
+                    });
+                    Navigator.of(context).pop(); // Close the dialog
+                  },
+                ),
+              );
+            },
+          );
+        },
+        label: Text('Select Workout'),
+        icon: Icon(Icons.fitness_center),
+        backgroundColor: Colors.cyan,
+      ),
     );
   }
+
+  // Function to get the name of the month from its index
+  String _getMonthName(int month) {
+    switch (month) {
+      case 1:
+        return 'January';
+      case 2:
+        return 'February';
+      case 3:
+        return 'March';
+      case 4:
+        return 'April';
+      case 5:
+        return 'May';
+      case 6:
+        return 'June';
+      case 7:
+        return 'July';
+      case 8:
+        return 'August';
+      case 9:
+        return 'September';
+      case 10:
+        return 'October';
+      case 11:
+        return 'November';
+      case 12:
+        return 'December';
+      default:
+        return '';
+    }
+  }
 }
+
