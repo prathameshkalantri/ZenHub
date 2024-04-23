@@ -10,8 +10,8 @@ class _StretchingPageState extends State<StretchingPage> {
   late VideoPlayerController _controller;
   late List<String> stretchingVideos = [
     'assets/yoga1.mp4',
-    'assets/stretching2.mp4',
-    'assets/stretching3.mp4',
+    'assets/yoga2.mp4',
+    'assets/yoga3.mp4',
   ];
 
   bool _isPlaying = false;

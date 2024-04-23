@@ -10,8 +10,8 @@ class _FullBodyPageState extends State<FullBodyPage> {
   late VideoPlayerController _controller;
   late List<String> fullBodyVideos = [
     'assets/yoga1.mp4',
-    'assets/fullbody2.mp4',
-    'assets/fullbody3.mp4',
+    'assets/yoga1.mp4',
+    'assets/yoga1.mp4',
   ];
 
   bool _isPlaying = false;

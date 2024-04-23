@@ -86,7 +86,7 @@ class WorkoutPage extends StatelessWidget {
             SizedBox(
               height: 120, // Adjust height as needed
               child: ExerciseOption(
-                title: 'Full Body',
+                title: 'Full Body',  //full body exercise
                 imagePath: 'assets/fullbody.jpg', // Add your image path
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => FullBodyPage()));
