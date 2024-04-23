@@ -1,6 +1,48 @@
 import 'package:flutter/material.dart';
+import 'yoga_page.dart';
+import 'pilates_page.dart';
+import 'full_body_page.dart';
+import 'stretching_page.dart';
 import 'setting_page.dart'; // Import SettingPage
 import 'home_page.dart'; // Import HomePage
+
+class ExerciseOption extends StatelessWidget {
+  final String title;
+  final String imagePath;
+  final VoidCallback onTap;
+
+  const ExerciseOption({
+    required this.title,
+    required this.imagePath,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 20),
+        title: Row(
+          children: [
+            Expanded(
+              child: Text(
+                title,
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+            SizedBox(width: 10),
+            Image.asset(
+              imagePath,
+              width: 160, // Adjust image width as needed
+              height: 100, // Adjust image height as needed
+            ),
+          ],
+        ),
+        onTap: onTap,
+      ),
+    );
+  }
+}
 
 class WorkoutPage extends StatelessWidget {
   @override
@@ -19,6 +61,49 @@ class WorkoutPage extends StatelessWidget {
               style: TextStyle(fontSize: 20),
             ),
             SizedBox(height: 20),
+            SizedBox(
+              height: 120, // Adjust height as needed
+              child: ExerciseOption(
+                title: 'Yoga',
+                imagePath: 'assets/yoga.jpg', // Add your image path
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => YogaPage()));
+                },
+              ),
+            ),
+            SizedBox(height: 20),
+            SizedBox(
+              height: 120, // Adjust height as needed
+              child: ExerciseOption(
+                title: 'Pilates',
+                imagePath: 'assets/pillates.jpg', // Add your image path
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => PilatesPage()));
+                },
+              ),
+            ),
+            SizedBox(height: 20),
+            SizedBox(
+              height: 120, // Adjust height as needed
+              child: ExerciseOption(
+                title: 'Full Body',
+                imagePath: 'assets/fullbody.jpg', // Add your image path
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => FullBodyPage()));
+                },
+              ),
+            ),
+            SizedBox(height: 20),
+            SizedBox(
+              height: 120, // Adjust height as needed
+              child: ExerciseOption(
+                title: 'Stretching',
+                imagePath: 'assets/stretching.jpg', // Add your image path
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => StretchingPage()));
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -50,3 +135,4 @@ class WorkoutPage extends StatelessWidget {
     );
   }
 }
+
