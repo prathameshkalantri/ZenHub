@@ -1,3 +1,5 @@
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_storage/firebase_storage.dart';
 // import 'package:flutter/material.dart';
 // import 'package:image_picker/image_picker.dart';
 // import 'dart:io';
@@ -30,35 +32,111 @@
 //     }
 //   }
 //
-//   Future<void> _showImagePicker(BuildContext context) async {
-//     showModalBottomSheet(
+//   // Future<void> _showImagePicker(BuildContext context) async {
+//   //   showModalBottomSheet(
+//   //     context: context,
+//   //     builder: (BuildContext context) {
+//   //       return SafeArea(
+//   //         child: Wrap(
+//   //           children: <Widget>[
+//   //             ListTile(
+//   //               leading: Icon(Icons.camera),
+//   //               title: Text('Camera'),
+//   //               onTap: () {
+//   //                 _getImage(ImageSource.camera);
+//   //                 Navigator.pop(context);
+//   //               },
+//   //             ),
+//   //             ListTile(
+//   //               leading: Icon(Icons.photo_library),
+//   //               title: Text('Gallery'),
+//   //               onTap: () {
+//   //                 _getImage(ImageSource.gallery);
+//   //                 Navigator.pop(context);
+//   //               },
+//   //             ),
+//   //           ],
+//   //         ),
+//   //       );
+//   //     },
+//   //   );
+//   // }
+//
+//   void _showImagePicker(BuildContext context) async {
+//     final picker = ImagePicker();
+//     final pickedFile = await showModalBottomSheet<XFile>(
 //       context: context,
 //       builder: (BuildContext context) {
-//         return SafeArea(
-//           child: Wrap(
-//             children: <Widget>[
-//               ListTile(
-//                 leading: Icon(Icons.camera),
-//                 title: Text('Camera'),
-//                 onTap: () {
-//                   _getImage(ImageSource.camera);
-//                   Navigator.pop(context);
-//                 },
-//               ),
-//               ListTile(
-//                 leading: Icon(Icons.photo_library),
-//                 title: Text('Gallery'),
-//                 onTap: () {
-//                   _getImage(ImageSource.gallery);
-//                   Navigator.pop(context);
-//                 },
-//               ),
-//             ],
-//           ),
+//         return Wrap(
+//           children: [
+//             ListTile(
+//               leading: Icon(Icons.camera),
+//               title: Text('Take a photo'),
+//               onTap: () async {
+//                 Navigator.pop(context, await picker.pickImage(source: ImageSource.camera));
+//               },
+//             ),
+//             ListTile(
+//               leading: Icon(Icons.photo_library),
+//               title: Text('Choose from gallery'),
+//               onTap: () async {
+//                 Navigator.pop(context, await picker.pickImage(source: ImageSource.gallery));
+//               },
+//             ),
+//           ],
 //         );
 //       },
 //     );
+//
+//     if (pickedFile != null) {
+//       setState(() {
+//         _image = pickedFile;
+//       });
+//
+//       try {
+//         File imageFile = File(pickedFile.path);
+//         String fileName = 'profile_image_${DateTime.now().millisecondsSinceEpoch}.jpg';
+//
+//         // Create a reference to the location you want to upload to in Firebase Storage
+//         final Reference storageRef = FirebaseStorage.instance.ref().child('profile_images/$fileName');
+//
+//         // Upload the file to Firebase Storage
+//         UploadTask uploadTask = storageRef.putFile(imageFile);
+//
+//         // Get the download URL of the uploaded image
+//         TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
+//
+//         String downloadURL = await taskSnapshot.ref.getDownloadURL();
+//
+//         // Update the user's profile photo URL in Firestore
+//         User? user = FirebaseAuth.instance.currentUser;
+//         if (user != null) {
+//           // Assuming you have a Firestore collection named 'users' and a document for each user
+//           CollectionReference usersRef = FirebaseFirestore.instance.collection('users');
+//           DocumentReference userDocRef = usersRef.doc(user.uid);
+//
+//           // Update the 'profile_photo_url' field in the user document
+//           await userDocRef.update({'profile_photo_url': downloadURL});
+//
+//           // Show a message indicating the image was uploaded successfully
+//           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+//             content: Text('Image uploaded successfully'),
+//           ));
+//         } else {
+//           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+//             content: Text('User not signed in'),
+//           ));
+//         }
+//       } catch (e) {
+//         // Handle any errors that occur during the upload process
+//         print('Error uploading image: $e');
+//         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+//           content: Text('Error uploading image'),
+//         ));
+//       }
+//     }
 //   }
+//
 //
 //   // Function to handle changing the password
 //   void _changePassword() async {
@@ -263,7 +341,15 @@
 //     );
 //   }
 // }
+//
+//   //   Navigator.pushReplacementNamed(context, '/signin');
+//   // }
+//   //
 
+
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -273,7 +359,6 @@ import 'workout_page.dart'; // Import WorkoutPage
 import 'home_page.dart'; // Import HomePage
 import 'package:firebase_auth/firebase_auth.dart';
 import 'location.dart';
-import 'location.dart'; // Import LocationPage
 
 class SettingPage extends StatefulWidget {
   @override
@@ -285,6 +370,25 @@ class _SettingPageState extends State<SettingPage> {
   XFile? _image;
   String? newPassword;
   String? confirmPassword;
+  String? _profilePhotoURL; // Add this variable to store the profile photo URL
+
+  @override
+  void initState() {
+    super.initState();
+    _getProfilePhotoURL(); // Call the method to fetch profile photo URL when the page initializes
+  }
+
+  // Method to fetch the profile photo URL from Firestore
+  void _getProfilePhotoURL() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      CollectionReference usersRef = FirebaseFirestore.instance.collection('users');
+      DocumentSnapshot snapshot = await usersRef.doc(user.uid).get();
+      setState(() {
+        _profilePhotoURL = snapshot['profile_photo_url'];
+      });
+    }
+  }
 
   Future<void> _getImage(ImageSource source) async {
     final picker = ImagePicker();
@@ -297,35 +401,160 @@ class _SettingPageState extends State<SettingPage> {
     }
   }
 
-  Future<void> _showImagePicker(BuildContext context) async {
-    showModalBottomSheet(
+  // void _showImagePicker(BuildContext context) async {
+  //   final picker = ImagePicker();
+  //   final pickedFile = await showModalBottomSheet<XFile>(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return Wrap(
+  //         children: [
+  //           ListTile(
+  //             leading: Icon(Icons.camera),
+  //             title: Text('Take a photo'),
+  //             onTap: () async {
+  //               Navigator.pop(context, await picker.pickImage(source: ImageSource.camera));
+  //             },
+  //           ),
+  //           ListTile(
+  //             leading: Icon(Icons.photo_library),
+  //             title: Text('Choose from gallery'),
+  //             onTap: () async {
+  //               Navigator.pop(context, await picker.pickImage(source: ImageSource.gallery));
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  //
+  //   if (pickedFile != null) {
+  //     setState(() {
+  //       _image = pickedFile;
+  //     });
+  //
+  //     try {
+  //       File imageFile = File(pickedFile.path);
+  //       String fileName = 'profile_image_${DateTime.now().millisecondsSinceEpoch}.jpg';
+  //
+  //       // Create a reference to the location you want to upload to in Firebase Storage
+  //       final Reference storageRef = FirebaseStorage.instance.ref().child('profile_images/$fileName');
+  //
+  //       // Upload the file to Firebase Storage
+  //       UploadTask uploadTask = storageRef.putFile(imageFile);
+  //
+  //       // Get the download URL of the uploaded image
+  //       TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
+  //
+  //       String downloadURL = await taskSnapshot.ref.getDownloadURL();
+  //
+  //       // Update the user's profile photo URL in Firestore
+  //       User? user = FirebaseAuth.instance.currentUser;
+  //       if (user != null) {
+  //         // Assuming you have a Firestore collection named 'users' and a document for each user
+  //         CollectionReference usersRef = FirebaseFirestore.instance.collection('users');
+  //         DocumentReference userDocRef = usersRef.doc(user.uid);
+  //
+  //         // Update the 'profile_photo_url' field in the user document
+  //         await userDocRef.update({'profile_photo_url': downloadURL});
+  //
+  //         // Show a message indicating the image was uploaded successfully
+  //         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //           content: Text('Image uploaded successfully'),
+  //         ));
+  //       } else {
+  //         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //           content: Text('User not signed in'),
+  //         ));
+  //       }
+  //     } catch (e) {
+  //       // Handle any errors that occur during the upload process
+  //       print('Error uploading image: $e');
+  //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //         content: Text('Error uploading image'),
+  //       ));
+  //     }
+  //   }
+  // }
+  void _showImagePicker(BuildContext context) async {
+    final picker = ImagePicker();
+    final pickedFile = await showModalBottomSheet<XFile>(
       context: context,
       builder: (BuildContext context) {
-        return SafeArea(
-          child: Wrap(
-            children: <Widget>[
-              ListTile(
-                leading: Icon(Icons.camera),
-                title: Text('Camera'),
-                onTap: () {
-                  _getImage(ImageSource.camera);
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.photo_library),
-                title: Text('Gallery'),
-                onTap: () {
-                  _getImage(ImageSource.gallery);
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ),
+        return Wrap(
+          children: [
+            ListTile(
+              leading: Icon(Icons.camera),
+              title: Text('Take a photo'),
+              onTap: () async {
+                Navigator.pop(context, await picker.pickImage(source: ImageSource.camera));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.photo_library),
+              title: Text('Choose from gallery'),
+              onTap: () async {
+                Navigator.pop(context, await picker.pickImage(source: ImageSource.gallery));
+              },
+            ),
+          ],
         );
       },
     );
+
+    if (pickedFile != null) {
+      setState(() {
+        _image = pickedFile;
+      });
+
+      try {
+        File imageFile = File(pickedFile.path);
+        String fileName = 'profile_image_${DateTime.now().millisecondsSinceEpoch}.jpg';
+
+        // Create a reference to the location you want to upload to in Firebase Storage
+        final Reference storageRef = FirebaseStorage.instance.ref().child('profile_images/$fileName');
+
+        // Upload the file to Firebase Storage
+        UploadTask uploadTask = storageRef.putFile(imageFile);
+
+        // Get the download URL of the uploaded image
+        TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
+
+        String downloadURL = await taskSnapshot.ref.getDownloadURL();
+
+        // Update the user's profile photo URL in Firestore
+        User? user = FirebaseAuth.instance.currentUser;
+        if (user != null) {
+          // Assuming you have a Firestore collection named 'users' and a document for each user
+          CollectionReference usersRef = FirebaseFirestore.instance.collection('users');
+          DocumentReference userDocRef = usersRef.doc(user.uid);
+
+          // Update the 'profile_photo_url' field in the user document
+          await userDocRef.update({'profile_photo_url': downloadURL});
+
+          // Update the background image URL
+          setState(() {
+            _profilePhotoURL = downloadURL;
+          });
+
+          // Show a message indicating the image was uploaded successfully
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Image uploaded successfully'),
+          ));
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('User not signed in'),
+          ));
+        }
+      } catch (e) {
+        // Handle any errors that occur during the upload process
+        print('Error uploading image: $e');
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Error uploading image'),
+        ));
+      }
+    }
   }
+
 
   // Function to handle changing the password
   void _changePassword() async {
@@ -389,6 +618,14 @@ class _SettingPageState extends State<SettingPage> {
     Navigator.pushReplacementNamed(context, '/signin');
   }
 
+  void _locateNearbyLocations() {
+    // Navigate to a page displaying nearby locations on Google Maps
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => NearbyLocationsPage()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -421,6 +658,11 @@ class _SettingPageState extends State<SettingPage> {
                 radius: 50,
                 backgroundImage: FileImage(File(_image!.path)),
               )
+                  : _profilePhotoURL != null
+                  ? CircleAvatar(
+                radius: 50,
+                backgroundImage: NetworkImage(_profilePhotoURL!),
+              )
                   : CircleAvatar(
                 radius: 50,
                 backgroundImage: AssetImage('assets/image2.jpg'),
@@ -434,7 +676,12 @@ class _SettingPageState extends State<SettingPage> {
           )
               : Column(
             children: [
-              CircleAvatar(
+              _profilePhotoURL != null
+                  ? CircleAvatar(
+                radius: 50,
+                backgroundImage: NetworkImage(_profilePhotoURL!),
+              )
+                  : CircleAvatar(
                 radius: 50,
                 backgroundImage: AssetImage('assets/image2.jpg'),
               ),
@@ -469,13 +716,7 @@ class _SettingPageState extends State<SettingPage> {
           ListTile(
             leading: Icon(Icons.location_on),
             title: Text('Locate Nearby Locations'),
-            onTap: () {
-              // Navigate to the LocationPage
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => LocationPage()),
-              );
-            },
+            onTap: _locateNearbyLocations,
           ),
           SizedBox(height: 20),
           ListTile(
@@ -509,6 +750,21 @@ class _SettingPageState extends State<SettingPage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+// Placeholder page for displaying nearby locations
+class NearbyLocationsPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Nearby Locations'),
+      ),
+      body: Center(
+        child: Text('Display nearby locations on Google Maps here'),
       ),
     );
   }
