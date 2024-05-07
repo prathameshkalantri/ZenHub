@@ -1,377 +1,12 @@
-//
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_storage/firebase_storage.dart';
-// import 'package:flutter/material.dart';
-// import 'package:image_picker/image_picker.dart';
-// import 'dart:io';
-// import 'reminder_page.dart';
-// import 'dart:io';
-// import 'workout_page.dart'; // Import WorkoutPage
-// import 'home_page.dart'; // Import HomePage
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'location.dart';
-//
-// class SettingPage extends StatefulWidget {
-//   @override
-//   _SettingPageState createState() => _SettingPageState();
-// }
-//
-// class _SettingPageState extends State<SettingPage> {
-//   bool isEditMode = false;
-//   XFile? _image;
-//   String? newPassword;
-//   String? confirmPassword;
-//   String? _profilePhotoURL; // Add this variable to store the profile photo URL
-//   String? _username;
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     _getProfilePhotoURL(); // Call the method to fetch profile photo URL when the page initializes
-//   }
-//
-//   // Method to fetch the profile photo URL from Firestore
-//   void _getProfilePhotoURL() async {
-//     User? user = FirebaseAuth.instance.currentUser;
-//     if (user != null) {
-//       CollectionReference usersRef = FirebaseFirestore.instance.collection('users');
-//       DocumentSnapshot snapshot = await usersRef.doc(user.uid).get();
-//       setState(() {
-//         _profilePhotoURL = snapshot['profile_photo_url'];
-//       });
-//     }
-//   }
-//
-//   Future<void> _getImage(ImageSource source) async {
-//     final picker = ImagePicker();
-//     final pickedFile = await picker.pickImage(source: source);
-//
-//     if (pickedFile != null) {
-//       setState(() {
-//         _image = pickedFile;
-//       });
-//     }
-//   }
-//
-//   void _showImagePicker(BuildContext context) async {
-//     final picker = ImagePicker();
-//     final pickedFile = await showModalBottomSheet<XFile>(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return Wrap(
-//           children: [
-//             ListTile(
-//               leading: Icon(Icons.camera),
-//               title: Text('Take a photo'),
-//               onTap: () async {
-//                 Navigator.pop(context, await picker.pickImage(source: ImageSource.camera));
-//               },
-//             ),
-//             ListTile(
-//               leading: Icon(Icons.photo_library),
-//               title: Text('Choose from gallery'),
-//               onTap: () async {
-//                 Navigator.pop(context, await picker.pickImage(source: ImageSource.gallery));
-//               },
-//             ),
-//           ],
-//         );
-//       },
-//     );
-//
-//     if (pickedFile != null) {
-//       setState(() {
-//         _image = pickedFile;
-//       });
-//
-//       try {
-//         File imageFile = File(pickedFile.path);
-//         String fileName = 'profile_image_${DateTime.now().millisecondsSinceEpoch}.jpg';
-//
-//         // Create a reference to the location you want to upload to in Firebase Storage
-//         final Reference storageRef = FirebaseStorage.instance.ref().child('profile_images/$fileName');
-//
-//         // Upload the file to Firebase Storage
-//         UploadTask uploadTask = storageRef.putFile(imageFile);
-//
-//         // Get the download URL of the uploaded image
-//         TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
-//
-//         String downloadURL = await taskSnapshot.ref.getDownloadURL();
-//
-//         // Update the user's profile photo URL in Firestore
-//         User? user = FirebaseAuth.instance.currentUser;
-//         if (user != null) {
-//           // Assuming you have a Firestore collection named 'users' and a document for each user
-//           CollectionReference usersRef = FirebaseFirestore.instance.collection('users');
-//           DocumentReference userDocRef = usersRef.doc(user.uid);
-//
-//           // Update the 'profile_photo_url' field in the user document
-//           await userDocRef.update({'profile_photo_url': downloadURL});
-//
-//           // Update the background image URL
-//           setState(() {
-//             _profilePhotoURL = downloadURL;
-//           });
-//
-//           // Show a message indicating the image was uploaded successfully
-//           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-//             content: Text('Image uploaded successfully'),
-//           ));
-//         } else {
-//           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-//             content: Text('User not signed in'),
-//           ));
-//         }
-//       } catch (e) {
-//         // Handle any errors that occur during the upload process
-//         print('Error uploading image: $e');
-//         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-//           content: Text('Error uploading image'),
-//         ));
-//       }
-//     }
-//   }
-//
-//   Future<String?> _fetchUsername() async {
-//     User? user = FirebaseAuth.instance.currentUser;
-//     if (user != null) {
-//       try {
-//         // Fetch username from Firestore
-//         DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
-//         return userDoc['username'];
-//       } catch (e) {
-//         print('Error fetching username: $e');
-//         return null;
-//       }
-//     }
-//     return null;
-//   }
-//   // Function to handle changing the password
-//   void _changePassword() async {
-//     String? currentPassword = '';
-//
-//     // Show dialog to input current password
-//     await showDialog(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return AlertDialog(
-//           title: Text('Change Password'),
-//           content: Column(
-//             mainAxisSize: MainAxisSize.min,
-//             children: [
-//               TextField(
-//                 decoration: InputDecoration(labelText: 'Current Password'),
-//                 onChanged: (value) => currentPassword = value,
-//                 obscureText: true,
-//               ),
-//               TextField(
-//                 decoration: InputDecoration(labelText: 'New Password'),
-//                 onChanged: (value) => newPassword = value,
-//                 obscureText: true,
-//               ),
-//               TextField(
-//                 decoration: InputDecoration(labelText: 'Confirm New Password'),
-//                 onChanged: (value) => confirmPassword = value,
-//                 obscureText: true,
-//               ),
-//             ],
-//           ),
-//           actions: [
-//             TextButton(
-//               onPressed: () {
-//                 Navigator.pop(context);
-//               },
-//               child: Text('Cancel'),
-//             ),
-//             TextButton(
-//               onPressed: () async {
-//                 if (newPassword == confirmPassword) {
-//                   // Passwords match, update the password
-//                   // Your password update logic here
-//                 } else {
-//                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-//                     content: Text('New passwords do not match!'),
-//                   ));
-//                 }
-//                 Navigator.pop(context);
-//               },
-//               child: Text('Update'),
-//             ),
-//           ],
-//         );
-//       },
-//     );
-//   }
-//
-//   void _logout() {
-//     // Navigate to sign-in page
-//     Navigator.pushReplacementNamed(context, '/signin');
-//   }
-//
-//   void _locateNearbyLocations() {
-//     // Navigate to a page displaying nearby locations on Google Maps
-//     Navigator.push(
-//       context,
-//       MaterialPageRoute(builder: (context) => NearbyLocationsPage()),
-//     );
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text(
-//           'Settings',
-//           style: TextStyle(fontWeight: FontWeight.bold),
-//         ),
-//         automaticallyImplyLeading: false, // Hide the back button
-//         actions: [
-//           IconButton(
-//             icon: Icon(isEditMode ? Icons.done : Icons.edit),
-//             onPressed: () {
-//               setState(() {
-//                 isEditMode = !isEditMode;
-//               });
-//             },
-//           ),
-//         ],
-//       ),
-//       body: Column(
-//         crossAxisAlignment: CrossAxisAlignment.center,
-//         children: [
-//           SizedBox(height: 20),
-//           isEditMode
-//               ? Column(
-//             children: [
-//               _image != null
-//                   ? CircleAvatar(
-//                 radius: 50,
-//                 backgroundImage: FileImage(File(_image!.path)),
-//               )
-//                   : _profilePhotoURL != null
-//                   ? CircleAvatar(
-//                 radius: 50,
-//                 backgroundImage: NetworkImage(_profilePhotoURL!),
-//               )
-//                   : CircleAvatar(
-//                 radius: 50,
-//                 backgroundImage: AssetImage('assets/image2.jpg'),
-//               ),
-//               SizedBox(height: 20),
-//               ElevatedButton(
-//                 onPressed: () => _showImagePicker(context),
-//                 child: Text('Change Photo'),
-//               ),
-//             ],
-//           )
-//               : Column(
-//             children: [
-//               _profilePhotoURL != null
-//                   ? CircleAvatar(
-//                 radius: 50,
-//                 backgroundImage: NetworkImage(_profilePhotoURL!),
-//               )
-//                   : CircleAvatar(
-//                 radius: 50,
-//                 backgroundImage: AssetImage('assets/image2.jpg'),
-//               ),
-//               SizedBox(height: 20),
-//               Text(
-//                 'Username',
-//                 style: TextStyle(fontSize: 20),
-//               ),
-//             ],
-//           ),
-//           SizedBox(height: 20),
-//           // Add reminder option below the username
-//           ListTile(
-//             leading: Icon(Icons.notifications),
-//             title: Text('Reminder'),
-//             onTap: () {
-//               Navigator.push(
-//                 context,
-//                 MaterialPageRoute(builder: (context) => ReminderPage()),
-//               );
-//             },
-//           ),
-//           SizedBox(height: 20),
-//           // Add Change Password button
-//           ListTile(
-//             leading: Icon(Icons.lock),
-//             title: Text('Change Password'),
-//             onTap: _changePassword,
-//           ),
-//           SizedBox(height: 20),
-//           // Add Locate Nearby Locations option
-//           ListTile(
-//             leading: Icon(Icons.location_on),
-//             title: Text('Locate Nearby Locations'),
-//             onTap: _locateNearbyLocations,
-//           ),
-//           SizedBox(height: 20),
-//           ListTile(
-//             leading: Icon(Icons.logout),
-//             title: Text('Logout'),
-//             onTap: _logout,
-//           ),
-//         ],
-//       ),
-//       bottomNavigationBar: BottomAppBar(
-//         child: Row(
-//           mainAxisAlignment: MainAxisAlignment.spaceAround,
-//           children: [
-//             IconButton(
-//               icon: Icon(Icons.home),
-//               onPressed: () {
-//                 Navigator.pushReplacementNamed(context, '/home');
-//               },
-//             ),
-//             IconButton(
-//               icon: Icon(Icons.fitness_center),
-//               onPressed: () {
-//                 Navigator.pushReplacementNamed(context, '/workout');
-//               },
-//             ),
-//             IconButton(
-//               icon: Icon(Icons.settings),
-//               onPressed: () {
-//                 // Do nothing since we are already on the SettingPage
-//               },
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-//
-// // Placeholder page for displaying nearby locations
-// class NearbyLocationsPage extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Nearby Locations'),
-//       ),
-//       body: Center(
-//         child: Text('Display nearby locations on Google Maps here'),
-//       ),
-//     );
-//   }
-// }
-
-
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'reminder_page.dart';
-import 'dart:io';
-import 'workout_page.dart'; // Import WorkoutPage
-import 'home_page.dart'; // Import HomePage
-import 'package:firebase_auth/firebase_auth.dart';
+import 'workout_page.dart';
+import 'home_page.dart';
 import 'location.dart';
 
 class SettingPage extends StatefulWidget {
@@ -384,17 +19,31 @@ class _SettingPageState extends State<SettingPage> {
   XFile? _image;
   String? newPassword;
   String? confirmPassword;
-  String? _profilePhotoURL; // Add this variable to store the profile photo URL
-  String? _username; // Add this variable to store the fetched username
+  String? _profilePhotoURL;
+  String? _username;
 
   @override
   void initState() {
     super.initState();
+    _preloadProfileImage(); // Preload profile image when the page initializes
     _getProfilePhotoURL();
-    _fetchUsername(); // Call the method to fetch the username when the page initializes
+    _fetchUsername();
   }
 
-  // Method to fetch the profile photo URL from Firestore
+  // Preload profile image in the background
+  void _preloadProfileImage() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      CollectionReference usersRef = FirebaseFirestore.instance.collection('users');
+      DocumentSnapshot snapshot = await usersRef.doc(user.uid).get();
+      String? profilePhotoURL = snapshot['profile_photo_url'];
+      if (profilePhotoURL != null) {
+        // Load profile photo in the background
+        await precacheImage(NetworkImage(profilePhotoURL), context);
+      }
+    }
+  }
+
   void _getProfilePhotoURL() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
@@ -406,12 +55,10 @@ class _SettingPageState extends State<SettingPage> {
     }
   }
 
-  // Method to fetch the username from Firestore
   void _fetchUsername() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       try {
-        // Fetch username from Firestore
         DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
         setState(() {
           _username = userDoc['username'];
@@ -465,36 +112,31 @@ class _SettingPageState extends State<SettingPage> {
       });
 
       try {
+        // Display a placeholder while loading the image
+        setState(() {
+          _profilePhotoURL = null;
+        });
+
         File imageFile = File(pickedFile.path);
         String fileName = 'profile_image_${DateTime.now().millisecondsSinceEpoch}.jpg';
-
-        // Create a reference to the location you want to upload to in Firebase Storage
         final Reference storageRef = FirebaseStorage.instance.ref().child('profile_images/$fileName');
-
-        // Upload the file to Firebase Storage
         UploadTask uploadTask = storageRef.putFile(imageFile);
 
-        // Get the download URL of the uploaded image
         TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
-
         String downloadURL = await taskSnapshot.ref.getDownloadURL();
 
-        // Update the user's profile photo URL in Firestore
         User? user = FirebaseAuth.instance.currentUser;
         if (user != null) {
-          // Assuming you have a Firestore collection named 'users' and a document for each user
           CollectionReference usersRef = FirebaseFirestore.instance.collection('users');
           DocumentReference userDocRef = usersRef.doc(user.uid);
 
-          // Update the 'profile_photo_url' field in the user document
           await userDocRef.update({'profile_photo_url': downloadURL});
 
-          // Update the background image URL
           setState(() {
             _profilePhotoURL = downloadURL;
+            _image = null; // Clear the _image variable after updating the profile photo URL
           });
 
-          // Show a message indicating the image was uploaded successfully
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text('Image uploaded successfully'),
           ));
@@ -504,7 +146,6 @@ class _SettingPageState extends State<SettingPage> {
           ));
         }
       } catch (e) {
-        // Handle any errors that occur during the upload process
         print('Error uploading image: $e');
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Error uploading image'),
@@ -513,11 +154,9 @@ class _SettingPageState extends State<SettingPage> {
     }
   }
 
-  // Function to handle changing the password
   void _changePassword() async {
     String? currentPassword = '';
 
-    // Show dialog to input current password
     await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -571,12 +210,10 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   void _logout() {
-    // Navigate to sign-in page
     Navigator.pushReplacementNamed(context, '/signin');
   }
 
   void _locateNearbyLocations() {
-    // Navigate to a page displaying nearby locations on Google Maps
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => NearbyLocationsPage()),
@@ -591,7 +228,7 @@ class _SettingPageState extends State<SettingPage> {
           'Settings',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        automaticallyImplyLeading: false, // Hide the back button
+        automaticallyImplyLeading: false,
         actions: [
           IconButton(
             icon: Icon(isEditMode ? Icons.done : Icons.edit),
@@ -610,15 +247,16 @@ class _SettingPageState extends State<SettingPage> {
           isEditMode
               ? Column(
             children: [
-              _image != null
-                  ? CircleAvatar(
-                radius: 50,
-                backgroundImage: FileImage(File(_image!.path)),
-              )
-                  : _profilePhotoURL != null
+              // Conditionally render the profile image based on whether the image is loaded or still loading
+              _profilePhotoURL != null
                   ? CircleAvatar(
                 radius: 50,
                 backgroundImage: NetworkImage(_profilePhotoURL!),
+              )
+                  : _image != null
+                  ? CircleAvatar(
+                radius: 50,
+                backgroundImage: FileImage(File(_image!.path)),
               )
                   : CircleAvatar(
                 radius: 50,
@@ -633,26 +271,31 @@ class _SettingPageState extends State<SettingPage> {
           )
               : Column(
             children: [
+              // Conditionally render the profile image based on whether the image is loaded or still loading
               _profilePhotoURL != null
                   ? CircleAvatar(
                 radius: 50,
                 backgroundImage: NetworkImage(_profilePhotoURL!),
               )
+                  : _image != null
+                  ? CircleAvatar(
+                radius: 50,
+                backgroundImage: FileImage(File(_image!.path)),
+              )
                   : CircleAvatar(
                 radius: 50,
-                backgroundImage: AssetImage('assets/image2.jpg'),
+                child: CircularProgressIndicator(), // Placeholder for the profile image while loading
               ),
               SizedBox(height: 20),
-              _username != null // Check if username is fetched
+              _username != null
                   ? Text(
-                _username!, // Display the fetched username
+                _username!,
                 style: TextStyle(fontSize: 20),
               )
-                  : CircularProgressIndicator(), // Show a loading indicator while fetching username
+                  : CircularProgressIndicator(),
             ],
           ),
           SizedBox(height: 20),
-          // Add reminder option below the username
           ListTile(
             leading: Icon(Icons.notifications),
             title: Text('Reminder'),
@@ -664,14 +307,12 @@ class _SettingPageState extends State<SettingPage> {
             },
           ),
           SizedBox(height: 20),
-          // Add Change Password button
           ListTile(
             leading: Icon(Icons.lock),
             title: Text('Change Password'),
             onTap: _changePassword,
           ),
           SizedBox(height: 20),
-          // Add Locate Nearby Locations option
           ListTile(
             leading: Icon(Icons.location_on),
             title: Text('Locate Nearby Locations'),
@@ -714,7 +355,6 @@ class _SettingPageState extends State<SettingPage> {
   }
 }
 
-// Placeholder page for displaying nearby locations
 class NearbyLocationsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
