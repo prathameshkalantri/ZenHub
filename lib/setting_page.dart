@@ -659,7 +659,7 @@ class _SettingPageState extends State<SettingPage> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ReminderPage()),
+                MaterialPageRoute(builder: (context) => ReminderPage(title: 'Reminder',)),
               );
             },
           ),

@@ -4,12 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:zenhub/signin_page.dart';
 import 'package:zenhub/signup_page.dart';
 import 'package:zenhub/home_page.dart';
-import 'package:zenhub/setting_page.dart'; // Import SettingPage
-import 'package:zenhub/workout_page.dart'; // Import WorkoutPage
+import 'package:zenhub/setting_page.dart';
+import 'package:zenhub/workout_page.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  tz.initializeTimeZones();
   runApp(MyApp());
 }
 
