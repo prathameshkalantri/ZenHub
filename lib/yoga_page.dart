@@ -11,7 +11,7 @@ class _YogaPageState extends State<YogaPage> {
   late List<String> yogaVideos = [
     'assets/yoga1.mp4', //uploading the video
     'assets/yoga2.mp4',
-    'assets/yoga3.mp4',
+    'assets/yoga3.mp4'
   ];
 
   bool _isPlaying = false;

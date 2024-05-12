@@ -9,9 +9,9 @@ class StretchingPage extends StatefulWidget {
 class _StretchingPageState extends State<StretchingPage> {
   late VideoPlayerController _controller;
   late List<String> stretchingVideos = [
-    'assets/yoga1.mp4',
-    'assets/yoga2.mp4',
-    'assets/yoga3.mp4',
+    'assets/stretch1.mp4',
+    'assets/stretch2.mp4',
+    'assets/stretch3.mp4',
   ];
 
   bool _isPlaying = false;

@@ -75,6 +75,17 @@ flutter:
      - assets/fullbody.jpg
      - assets/stretching.jpg
      - assets/yoga1.mp4
+     - assets/yoga2.mp4
+     - assets/yoga3.mp4
+     - assets/pillate1.mp4
+     - assets/pillate2.mp4
+     - assets/pillates3.mp4
+     - assets/stretch1.mp4
+     - assets/stretch2.mp4
+     - assets/stretch3.mp4
+     - assets/fullbody2.mp4
+     - assets/fullbody3.mp4
+     - assets/fullbody4.mp4
 #     - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
