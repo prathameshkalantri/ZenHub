@@ -8,10 +8,13 @@ import 'package:zenhub/setting_page.dart';
 import 'package:zenhub/workout_page.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
+import 'notification.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   tz.initializeTimeZones();
+  await NotificationService().initNotification();
   runApp(MyApp());
 }
 

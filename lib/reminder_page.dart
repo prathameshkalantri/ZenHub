@@ -177,9 +177,10 @@
 //   }
 // }
 
-
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart' as datatTimePicker;
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart'
+    as datatTimePicker;
+import 'package:permission_handler/permission_handler.dart';
 
 import 'notification.dart';
 
@@ -195,6 +196,36 @@ class ReminderPage extends StatefulWidget {
 }
 
 class _MyReminderPage extends State<ReminderPage> {
+  bool isNotificationEnabled = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checkNotificationPermission();
+  }
+
+  void checkNotificationPermission() async {
+    PermissionStatus notificationStatus = await Permission.notification.status;
+    setState(() {
+      isNotificationEnabled = notificationStatus.isGranted;
+    });
+  }
+
+  void requestNotificationPermission() async {
+    PermissionStatus notificationStatus =
+        await Permission.notification.request();
+    if (notificationStatus.isGranted) {
+      setState(() {
+        isNotificationEnabled = notificationStatus.isGranted;
+      });
+    } else {
+      setState(() {
+        isNotificationEnabled = notificationStatus.isGranted;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -202,14 +233,25 @@ class _MyReminderPage extends State<ReminderPage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            DatePickerTxt(),
-            ScheduleBtn(),
-          ],
-        ),
-      ),
+          child: isNotificationEnabled
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    DatePickerTxt(),
+                    ScheduleBtn(),
+                  ],
+                )
+              : Column(
+                  children: [
+                    Text('Notification Permissions needs to be granted!'),
+                    ElevatedButton(
+                      onPressed: () {
+                        requestNotificationPermission();
+                      },
+                      child: Text('Request Notification Permissions'),
+                    ),
+                  ],
+                )),
     );
   }
 }
