@@ -9,9 +9,9 @@ class PilatesPage extends StatefulWidget {
 class _PilatesPageState extends State<PilatesPage> {
   late VideoPlayerController _controller;
   late List<String> pilatesVideos = [
-    'assets/yoga1.mp4',
-    'assets/yoga1.mp4',
-    'assets/yoga1.mp4',
+    'assets/pillate1.mp4',
+    'assets/pillate2.mp4',
+    'assets/pillates3.mp4',
   ];
 
   bool _isPlaying = false;
@@ -67,7 +67,7 @@ class _PilatesPageState extends State<PilatesPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Pilates',
-        style: TextStyle(fontWeight: FontWeight.bold),),
+          style: TextStyle(fontWeight: FontWeight.bold),),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 80), // Adjusted padding

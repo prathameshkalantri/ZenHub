@@ -11,7 +11,7 @@ class _YogaPageState extends State<YogaPage> {
   late List<String> yogaVideos = [
     'assets/yoga1.mp4', //uploading the video
     'assets/yoga2.mp4',
-    'assets/yoga3.mp4',
+    'assets/yoga3.mp4'
   ];
 
   bool _isPlaying = false;
@@ -67,7 +67,7 @@ class _YogaPageState extends State<YogaPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Yoga',
-        style: TextStyle(fontWeight: FontWeight.bold),),
+          style: TextStyle(fontWeight: FontWeight.bold),),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 80), // Adjusted padding

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
@@ -9,9 +10,9 @@ class FullBodyPage extends StatefulWidget {
 class _FullBodyPageState extends State<FullBodyPage> {
   late VideoPlayerController _controller;
   late List<String> fullBodyVideos = [
-    'assets/yoga1.mp4',
-    'assets/yoga1.mp4',
-    'assets/yoga1.mp4',
+    'assets/fullbody2.mp4',
+    'assets/fullbody3.mp4',
+    'assets/fullbody4.mp4',
   ];
 
   bool _isPlaying = false;
@@ -67,7 +68,7 @@ class _FullBodyPageState extends State<FullBodyPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Full Body',
-        style: TextStyle(fontWeight: FontWeight.bold),),
+          style: TextStyle(fontWeight: FontWeight.bold),),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 80), // Adjusted padding
