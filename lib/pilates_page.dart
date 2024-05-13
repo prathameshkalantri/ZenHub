@@ -66,7 +66,8 @@ class _PilatesPageState extends State<PilatesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pilates Page'),
+        title: Text('Pilates',
+        style: TextStyle(fontWeight: FontWeight.bold),),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 80), // Adjusted padding

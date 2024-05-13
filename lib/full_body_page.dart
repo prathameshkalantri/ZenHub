@@ -66,7 +66,8 @@ class _FullBodyPageState extends State<FullBodyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Full Body Workout Page'),
+        title: Text('Full Body',
+        style: TextStyle(fontWeight: FontWeight.bold),),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 80), // Adjusted padding
