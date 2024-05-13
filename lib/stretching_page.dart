@@ -66,7 +66,8 @@ class _StretchingPageState extends State<StretchingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Stretching Page'),
+        title: Text('Stretching',
+        style: TextStyle(fontWeight: FontWeight.bold),),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 80),
