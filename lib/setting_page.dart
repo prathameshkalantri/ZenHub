@@ -8,7 +8,6 @@ import 'dart:io';
 import 'workout_page.dart'; // Import WorkoutPage
 import 'home_page.dart'; // Import HomePage
 import 'package:firebase_auth/firebase_auth.dart';
-import 'location.dart';
 
 class SettingPage extends StatefulWidget {
   @override
@@ -212,13 +211,6 @@ class _SettingPageState extends State<SettingPage> {
     Navigator.pushReplacementNamed(context, '/signin');
   }
 
-  void _locateNearbyLocations() {
-    // Navigate to a page displaying nearby locations on Google Maps
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => NearbyLocationsPage()),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -308,13 +300,6 @@ class _SettingPageState extends State<SettingPage> {
             onTap: _changePassword,
           ),
           SizedBox(height: 20),
-          // Add Locate Nearby Locations option
-          ListTile(
-            leading: Icon(Icons.location_on),
-            title: Text('Locate Nearby Locations'),
-            onTap: _locateNearbyLocations,
-          ),
-          SizedBox(height: 20),
           ListTile(
             leading: Icon(Icons.logout),
             title: Text('Logout'),
@@ -360,19 +345,5 @@ class _SettingPageState extends State<SettingPage> {
   }
 }
 
-// Placeholder page for displaying nearby locations
-class NearbyLocationsPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Nearby Locations'),
-      ),
-      body: Center(
-        child: Text('Display nearby locations on Google Maps here'),
-      ),
-    );
-  }
-}
 
 

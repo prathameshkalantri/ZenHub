@@ -15,7 +15,7 @@ class _HomePageState extends State<HomePage> {
   int _selectedWorkouts = 0;
 
 
-  int _selectedDay = 1; // Default to 1st day of the month
+  int _selectedDay = DateTime.now().day; // Default to 1st day of the month
   int _selectedMonth = DateTime.now().month; // Default to current month
   int _selectedYear = DateTime.now().year; // Default to current year
 
@@ -540,8 +540,9 @@ class _HomePageState extends State<HomePage> {
             },
           );
         },
-        label: Text('Select Workout'),
-        icon: Icon(Icons.fitness_center),
+        label: Text('Select Workout',
+        style: TextStyle(color: Colors.white),),
+        icon: Icon(Icons.fitness_center, color: Colors.white,),
         backgroundColor: Colors.cyan,
       ),
     );

@@ -4,6 +4,7 @@ as datatTimePicker;
 import 'package:permission_handler/permission_handler.dart';
 import 'notification.dart';
 
+
 DateTime scheduleTime = DateTime.now();
 
 class ReminderPage extends StatefulWidget {
@@ -65,8 +66,16 @@ class _MyReminderPage extends State<ReminderPage> {
       body: Center(
         child: isNotificationEnabled
             ? Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            // SizedBox(height: 10,),
+            Image.asset(
+              'assets/reminder1.jpg', // Replace with your image path
+              height: 350, // Adjust height as needed
+              width: double.infinity, // Take full width
+              fit: BoxFit.cover, // Cover the area
+            ),
+            // SizedBox(height: 10,),
             DatePickerTxt(
               onDateTimeChanged: (date) {
                 setState(() {
@@ -90,10 +99,33 @@ class _MyReminderPage extends State<ReminderPage> {
               },
             ),
             SizedBox(height: 20),
-            Text(
-              'Scheduled Date and Time: $scheduleTime',
-              style: TextStyle(fontSize: 16),
+            Container(
+              margin: EdgeInsets.all(20), // Adjust margin as needed
+              decoration: BoxDecoration(
+                color: Colors.white, // Set the color to white
+                borderRadius: BorderRadius.circular(12), // Rounded corners
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5), // Shadow color
+                    spreadRadius: 3, // Spread radius
+                    blurRadius: 7, // Blur radius
+                    offset: Offset(0, 3), // Offset from the top
+                  ),
+                ],
+              ),
+              child: ListTile(
+                title: Text(
+                  'Scheduled Date and Time:',
+                  style: TextStyle(fontSize: 16),
+                ),
+                subtitle: Text(
+                  '${scheduleTime.year}-${scheduleTime.month.toString().padLeft(2, '0')}-${scheduleTime.day.toString().padLeft(2, '0')} ${scheduleTime.hour.toString().padLeft(2, '0')}:${scheduleTime.minute.toString().padLeft(2, '0')}',
+                  style: TextStyle(fontSize: 20, color: Colors.cyan, fontWeight: FontWeight.bold),
+                ),
+                trailing: Icon(Icons.schedule), // Optionally add an icon
+              ),
             ),
+
           ],
         )
             : Column(

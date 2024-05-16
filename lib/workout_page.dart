@@ -52,7 +52,7 @@ class ExerciseOption extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: Colors.white, // Set the color of the card to white
-      elevation: 5, // Add elevation for shadow effect
+      elevation: 1, // Add elevation for shadow effect
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
@@ -63,7 +63,7 @@ class ExerciseOption extends StatelessWidget {
             Expanded(
               child: Text(
                 title,
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(color: Colors.cyan, fontSize: 20),
               ),
             ),
             SizedBox(width: 10),
@@ -80,6 +80,7 @@ class ExerciseOption extends StatelessWidget {
     );
   }
 }
+
 
 class WorkoutPage extends StatefulWidget {
   @override
@@ -140,7 +141,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
             SizedBox(
               height: 120, // Adjust height as needed
               child: ExerciseOption(
-                title: 'Stretching',
+                title: 'Streching',
                 image: AssetImage('assets/stretching.jpg'), // Add your image path
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => StretchingPage()));
