@@ -540,8 +540,9 @@ class _HomePageState extends State<HomePage> {
             },
           );
         },
-        label: Text('Select Workout'),
-        icon: Icon(Icons.fitness_center),
+        label: Text('Select Workout',
+        style: TextStyle(color: Colors.white),),
+        icon: Icon(Icons.fitness_center, color: Colors.white,),
         backgroundColor: Colors.cyan,
       ),
     );
