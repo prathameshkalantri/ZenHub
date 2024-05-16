@@ -66,8 +66,10 @@ class _StretchingPageState extends State<StretchingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Stretching',
-          style: TextStyle(fontWeight: FontWeight.bold),),
+        title: Text(
+          'Stretching',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 80),
@@ -123,7 +125,7 @@ class _StretchingPageState extends State<StretchingPage> {
                       onTap: () => _playVideo(stretchingVideos[0]),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Colors.cyanAccent, // Custom color for the tile
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
@@ -149,7 +151,7 @@ class _StretchingPageState extends State<StretchingPage> {
                       onTap: () => _playVideo(stretchingVideos[1]),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Colors.cyanAccent, // Custom color for the tile
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
@@ -175,7 +177,7 @@ class _StretchingPageState extends State<StretchingPage> {
                       onTap: () => _playVideo(stretchingVideos[2]),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Colors.cyanAccent, // Custom color for the tile
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(

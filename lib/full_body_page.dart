@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
@@ -67,8 +66,10 @@ class _FullBodyPageState extends State<FullBodyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Full Body',
-          style: TextStyle(fontWeight: FontWeight.bold),),
+        title: Text(
+          'Full Body',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 80), // Adjusted padding
@@ -124,7 +125,7 @@ class _FullBodyPageState extends State<FullBodyPage> {
                       onTap: () => _playVideo(fullBodyVideos[0]),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white, // White color for the tile
+                          color: Colors.cyanAccent, // Custom color for the tile
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
@@ -137,7 +138,7 @@ class _FullBodyPageState extends State<FullBodyPage> {
                         ),
                         child: Center(
                           child: Text(
-                            'Full Body Workout 1',
+                            'Squats',
                             style: TextStyle(fontSize: 20),
                           ),
                         ),
@@ -150,7 +151,7 @@ class _FullBodyPageState extends State<FullBodyPage> {
                       onTap: () => _playVideo(fullBodyVideos[1]),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white, // White color for the tile
+                          color: Colors.cyanAccent, // Custom color for the tile
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
@@ -163,7 +164,7 @@ class _FullBodyPageState extends State<FullBodyPage> {
                         ),
                         child: Center(
                           child: Text(
-                            'Full Body Workout 2',
+                            'Push Ups',
                             style: TextStyle(fontSize: 20),
                           ),
                         ),
@@ -176,7 +177,7 @@ class _FullBodyPageState extends State<FullBodyPage> {
                       onTap: () => _playVideo(fullBodyVideos[2]),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white, // White color for the tile
+                          color: Colors.cyanAccent, // Custom color for the tile
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
@@ -189,7 +190,7 @@ class _FullBodyPageState extends State<FullBodyPage> {
                         ),
                         child: Center(
                           child: Text(
-                            'Full Body Workout 3',
+                            'Pull Ups',
                             style: TextStyle(fontSize: 20),
                           ),
                         ),

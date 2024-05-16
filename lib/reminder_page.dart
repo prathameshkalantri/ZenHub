@@ -1,193 +1,13 @@
-// import 'package:flutter/material.dart';
-// import 'package:timezone/data/latest.dart' as tz;
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-// import 'package:timezone/timezone.dart' as tz;
-// import 'notification.dart';
-// class ReminderPage extends StatefulWidget {
-//   @override
-//   _ReminderPageState createState() => _ReminderPageState();
-// }
-//
-// class _ReminderPageState extends State<ReminderPage> {
-//   TimeOfDay _selectedTime = TimeOfDay.now();
-//   List<String> _daysOfWeek = [
-//     'Monday',
-//     'Tuesday',
-//     'Wednesday',
-//     'Thursday',
-//     'Friday',
-//     'Saturday',
-//     'Sunday'
-//   ];
-//   List<bool> _selectedDays = [
-//     false,
-//     false,
-//     false,
-//     false,
-//     false,
-//     false,
-//     false
-//   ];
-//
-//   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-//   FlutterLocalNotificationsPlugin();
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     tz.initializeTimeZones(); // Initialize time zones
-//     initializeNotifications();
-//   }
-//
-//   Future<void> initializeNotifications() async {
-//     const AndroidInitializationSettings initializationSettingsAndroid =
-//     AndroidInitializationSettings('app_icon');
-//     final InitializationSettings initializationSettings =
-//     InitializationSettings(android: initializationSettingsAndroid);
-//     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-//   }
-//
-//   Future<void> _selectTime(BuildContext context) async {
-//     final TimeOfDay? picked = await showTimePicker(
-//       context: context,
-//       initialTime: _selectedTime,
-//     );
-//     if (picked != null && picked != _selectedTime) {
-//       setState(() {
-//         _selectedTime = picked;
-//       });
-//     }
-//   }
-//
-//   Future<void> _scheduleNotification(tz.TZDateTime scheduledTime) async {
-//     const AndroidNotificationDetails androidPlatformChannelSpecifics =
-//     AndroidNotificationDetails(
-//       'zenfit', // Replace with your channel ID
-//       'Workout Reminder', // Replace with your channel name
-//       importance: Importance.max,
-//       priority: Priority.high,
-//     );
-//     const NotificationDetails platformChannelSpecifics =
-//     NotificationDetails(android: androidPlatformChannelSpecifics);
-//     await flutterLocalNotificationsPlugin.zonedSchedule(
-//       0,
-//       'Reminder',
-//       'This is your reminder',
-//       scheduledTime,
-//       platformChannelSpecifics,
-//       androidAllowWhileIdle: true,
-//       uiLocalNotificationDateInterpretation:
-//       UILocalNotificationDateInterpretation.absoluteTime,
-//     );
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Reminder'),
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(20.0),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.stretch,
-//           children: [
-//             Text(
-//               'Select Time:',
-//               style: TextStyle(fontSize: 20.0),
-//             ),
-//             SizedBox(height: 10.0),
-//             ElevatedButton(
-//               onPressed: () => _selectTime(context),
-//               child: Text(
-//                 'Select Time: ${_selectedTime.format(context)}',
-//               ),
-//             ),
-//             SizedBox(height: 20.0),
-//             Text(
-//               'Select Frequency:',
-//               style: TextStyle(fontSize: 20.0),
-//             ),
-//             SizedBox(height: 10.0),
-//             Wrap(
-//               spacing: 8.0,
-//               runSpacing: 8.0,
-//               children: _daysOfWeek.asMap().entries.map((entry) {
-//                 final index = entry.key;
-//                 final day = entry.value;
-//                 return FilterChip(
-//                   label: Text(day),
-//                   selected: _selectedDays[index],
-//                   onSelected: (selected) {
-//                     setState(() {
-//                       _selectedDays[index] = selected;
-//                     });
-//                   },
-//                 );
-//               }).toList(),
-//             ),
-//             SizedBox(height: 20.0),
-//             ElevatedButton(
-//               onPressed: () {
-//                 final now = tz.TZDateTime.now(tz.local);
-//                 final scheduledTime = tz.TZDateTime(
-//                   tz.local,
-//                   now.year,
-//                   now.month,
-//                   now.day,
-//                   _selectedTime.hour,
-//                   _selectedTime.minute,
-//                 );
-//
-//                 _scheduleNotification(scheduledTime);
-//
-//                 // Schedule notifications for selected days
-//                 for (int i = 0; i < _selectedDays.length; i++) {
-//                   if (_selectedDays[i]) {
-//                     final dayIndex = (i + 1) % 7; // Adjust day index
-//                     final day = tz.TZDateTime(
-//                       tz.local,
-//                       now.year,
-//                       now.month,
-//                       now.day + (dayIndex - now.weekday),
-//                       _selectedTime.hour,
-//                       _selectedTime.minute,
-//                     );
-//                     _scheduleNotification(day);
-//                   }
-//                 }
-//                 NotificationService().scheduleNotification(
-//                   title: 'Reminder',
-//                   body: 'fitness Reminder',
-//                   scheduledNotificationDateTime: scheduledTime
-//
-//                 );
-//                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-//                   content: Text('Reminder saved successfully'),
-//                 ));
-//                 // Navigate to the Settings page
-//                 Navigator.pushReplacementNamed(context, '/setting');
-//               },
-//               child: Text('Save Reminder'),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart'
-    as datatTimePicker;
+as datatTimePicker;
 import 'package:permission_handler/permission_handler.dart';
-
 import 'notification.dart';
 
 DateTime scheduleTime = DateTime.now();
 
 class ReminderPage extends StatefulWidget {
-  const ReminderPage({super.key, required this.title});
+  const ReminderPage({Key? key, required this.title});
 
   final String title;
 
@@ -197,16 +17,18 @@ class ReminderPage extends StatefulWidget {
 
 class _MyReminderPage extends State<ReminderPage> {
   bool isNotificationEnabled = false;
+  late DateTime selectedDateTime; // Define selectedDateTime here
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     checkNotificationPermission();
+    selectedDateTime = scheduleTime;
   }
 
   void checkNotificationPermission() async {
-    PermissionStatus notificationStatus = await Permission.notification.status;
+    PermissionStatus notificationStatus =
+    await Permission.notification.status;
     setState(() {
       isNotificationEnabled = notificationStatus.isGranted;
     });
@@ -214,7 +36,7 @@ class _MyReminderPage extends State<ReminderPage> {
 
   void requestNotificationPermission() async {
     PermissionStatus notificationStatus =
-        await Permission.notification.request();
+    await Permission.notification.request();
     if (notificationStatus.isGranted) {
       setState(() {
         isNotificationEnabled = notificationStatus.isGranted;
@@ -226,6 +48,14 @@ class _MyReminderPage extends State<ReminderPage> {
     }
   }
 
+  void showSnackbar(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Reminder set successfully!'),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -233,32 +63,61 @@ class _MyReminderPage extends State<ReminderPage> {
         title: Text(widget.title),
       ),
       body: Center(
-          child: isNotificationEnabled
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    DatePickerTxt(),
-                    ScheduleBtn(),
-                  ],
-                )
-              : Column(
-                  children: [
-                    Text('Notification Permissions needs to be granted!'),
-                    ElevatedButton(
-                      onPressed: () {
-                        requestNotificationPermission();
-                      },
-                      child: Text('Request Notification Permissions'),
-                    ),
-                  ],
-                )),
+        child: isNotificationEnabled
+            ? Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            DatePickerTxt(
+              onDateTimeChanged: (date) {
+                setState(() {
+                  selectedDateTime = date;
+                });
+              },
+            ),
+            SizedBox(height: 20),
+            ScheduleBtn(
+              onSchedule: () {
+                debugPrint('Notification Scheduled for $selectedDateTime');
+                NotificationService().scheduleNotification(
+                  title: 'Workout Time!',
+                  body: '$selectedDateTime',
+                  scheduledNotificationDateTime: selectedDateTime,
+                );
+                setState(() {
+                  scheduleTime = selectedDateTime;
+                });
+                showSnackbar(context); // Show snackbar after scheduling
+              },
+            ),
+            SizedBox(height: 20),
+            Text(
+              'Scheduled Date and Time: $scheduleTime',
+              style: TextStyle(fontSize: 16),
+            ),
+          ],
+        )
+            : Column(
+          children: [
+            Text('Notification Permissions need to be granted!'),
+            ElevatedButton(
+              onPressed: () {
+                requestNotificationPermission();
+              },
+              child: Text('Request Notification Permissions'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
 
 class DatePickerTxt extends StatefulWidget {
+  final void Function(DateTime) onDateTimeChanged;
+
   const DatePickerTxt({
     Key? key,
+    required this.onDateTimeChanged,
   }) : super(key: key);
 
   @override
@@ -266,41 +125,82 @@ class DatePickerTxt extends StatefulWidget {
 }
 
 class _DatePickerTxtState extends State<DatePickerTxt> {
+  late DateTime selectedDateTime;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedDateTime = scheduleTime;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: () {
-        datatTimePicker.DatePicker.showDateTimePicker(
-          context,
-          showTitleActions: true,
-          onChanged: (date) => scheduleTime = date,
-          onConfirm: (date) {},
-        );
-      },
-      child: const Text(
-        'Select Date Time',
-        style: TextStyle(color: Colors.blue),
-      ),
+    return Column(
+      children: [
+        Text(
+          '',
+          style: TextStyle(color: Colors.blue),
+        ),
+        SizedBox(height: 15),
+        Container( // Wrap the button with Container
+          width: 300, // Set the desired width
+          child: OutlinedButton(
+            onPressed: () {
+              datatTimePicker.DatePicker.showDateTimePicker(
+                context,
+                showTitleActions: true,
+                onChanged: (date) {
+                  setState(() {
+                    selectedDateTime = date;
+                    widget.onDateTimeChanged(date); // Pass selected date time to parent widget
+                  });
+                },
+                onConfirm: (date) {
+                  setState(() {
+                    selectedDateTime = date;
+                    widget.onDateTimeChanged(date); // Pass selected date time to parent widget
+                  });
+                },
+              );
+            },
+            child: Text('Choose Date and Time'),
+          ),
+        ),
+      ],
     );
   }
 }
 
 class ScheduleBtn extends StatelessWidget {
+  final VoidCallback onSchedule;
+
   const ScheduleBtn({
     Key? key,
+    required this.onSchedule,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      child: const Text('Schedule notifications'),
-      onPressed: () {
-        debugPrint('Notification Scheduled for $scheduleTime');
-        NotificationService().scheduleNotification(
-            title: 'Scheduled Notification',
-            body: '$scheduleTime',
-            scheduledNotificationDateTime: scheduleTime);
-      },
+    return Container(
+      width: 300,
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.cyanAccent,
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+        onPressed: onSchedule,
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 15),
+          child: Text(
+            'Set Reminder',
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
+      ),
     );
   }
 }
