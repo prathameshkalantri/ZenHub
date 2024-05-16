@@ -66,16 +66,18 @@ class _PilatesPageState extends State<PilatesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pilates',
-          style: TextStyle(fontWeight: FontWeight.bold),),
+        title: Text(
+          'Pilates',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 80), // Adjusted padding
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 80),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Flexible(
-              flex: 3, // Increased height of the video display screen
+              flex: 3,
               child: AspectRatio(
                 aspectRatio: _controller.value.aspectRatio,
                 child: Stack(
@@ -112,7 +114,7 @@ class _PilatesPageState extends State<PilatesPage> {
                 ),
               ),
             ),
-            SizedBox(height: 20), // Add spacing between video player and buttons
+            SizedBox(height: 20),
             Flexible(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -123,72 +125,72 @@ class _PilatesPageState extends State<PilatesPage> {
                       onTap: () => _playVideo(pilatesVideos[0]),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white, // White color for the tile
+                          color: Colors.cyanAccent, // Custom color for the tile
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.5),
                               spreadRadius: 2,
                               blurRadius: 5,
-                              offset: Offset(0, 3), // changes position of shadow
+                              offset: Offset(0, 3),
                             ),
                           ],
                         ),
                         child: Center(
                           child: Text(
-                            'Pilates 1',
+                            'Classical',
                             style: TextStyle(fontSize: 20),
                           ),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20), // Add spacing between tiles
+                  SizedBox(height: 20),
                   Expanded(
                     child: GestureDetector(
                       onTap: () => _playVideo(pilatesVideos[1]),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white, // White color for the tile
+                          color: Colors.cyanAccent, // Custom color for the tile
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.5),
                               spreadRadius: 2,
                               blurRadius: 5,
-                              offset: Offset(0, 3), // changes position of shadow
+                              offset: Offset(0, 3),
                             ),
                           ],
                         ),
                         child: Center(
                           child: Text(
-                            'Pilates 2',
+                            'Mat Pilates',
                             style: TextStyle(fontSize: 20),
                           ),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20), // Add spacing between tiles
+                  SizedBox(height: 20),
                   Expanded(
                     child: GestureDetector(
                       onTap: () => _playVideo(pilatesVideos[2]),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white, // White color for the tile
+                          color: Colors.cyanAccent, // Custom color for the tile
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.5),
                               spreadRadius: 2,
                               blurRadius: 5,
-                              offset: Offset(0, 3), // changes position of shadow
+                              offset: Offset(0, 3),
                             ),
                           ],
                         ),
                         child: Center(
                           child: Text(
-                            'Pilates 3',
+                            'Equipment pilates',
                             style: TextStyle(fontSize: 20),
                           ),
                         ),

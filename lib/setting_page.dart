@@ -292,7 +292,7 @@ class _SettingPageState extends State<SettingPage> {
           // Add reminder option below the username
           ListTile(
             leading: Icon(Icons.notifications),
-            title: Text('Reminder'),
+            title: Text('Reminder',),
             onTap: () {
               Navigator.push(
                 context,

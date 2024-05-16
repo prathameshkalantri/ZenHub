@@ -66,8 +66,10 @@ class _YogaPageState extends State<YogaPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Yoga',
-          style: TextStyle(fontWeight: FontWeight.bold),),
+        title: Text(
+          'Yoga',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 80), // Adjusted padding
@@ -92,7 +94,8 @@ class _YogaPageState extends State<YogaPage> {
                           },
                         ),
                         IconButton(
-                          icon: Icon(_isPlaying ? Icons.pause : Icons.play_arrow),
+                          icon: Icon(
+                              _isPlaying ? Icons.pause : Icons.play_arrow),
                           onPressed: _togglePlayPause,
                         ),
                         IconButton(
@@ -123,14 +126,15 @@ class _YogaPageState extends State<YogaPage> {
                       onTap: () => _playVideo(yogaVideos[0]),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white, // White color for the tile
+                          color: Colors.cyanAccent, // Custom color for the tile
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.5),
                               spreadRadius: 2,
                               blurRadius: 5,
-                              offset: Offset(0, 3), // changes position of shadow
+                              offset:
+                              Offset(0, 3), // changes position of shadow
                             ),
                           ],
                         ),
@@ -149,14 +153,15 @@ class _YogaPageState extends State<YogaPage> {
                       onTap: () => _playVideo(yogaVideos[1]),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white, // White color for the tile
+                          color: Colors.cyanAccent, // Custom color for the tile
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.5),
                               spreadRadius: 2,
                               blurRadius: 5,
-                              offset: Offset(0, 3), // changes position of shadow
+                              offset:
+                              Offset(0, 3), // changes position of shadow
                             ),
                           ],
                         ),
@@ -175,14 +180,15 @@ class _YogaPageState extends State<YogaPage> {
                       onTap: () => _playVideo(yogaVideos[2]),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.white, // White color for the tile
+                          color: Colors.cyanAccent, // Custom color for the tile
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.5),
                               spreadRadius: 2,
                               blurRadius: 5,
-                              offset: Offset(0, 3), // changes position of shadow
+                              offset:
+                              Offset(0, 3), // changes position of shadow
                             ),
                           ],
                         ),
