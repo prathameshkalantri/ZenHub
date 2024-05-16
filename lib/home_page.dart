@@ -547,7 +547,7 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
+  //
   // Function to get the name of the month from its index
   String _getMonthName(int month) {
     switch (month) {
