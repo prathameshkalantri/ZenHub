@@ -16,6 +16,7 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
+  int _currentIndex = 2;
   bool isEditMode = false;
   XFile? _image;
   String? newPassword;
@@ -329,19 +330,28 @@ class _SettingPageState extends State<SettingPage> {
               icon: Icon(Icons.home),
               onPressed: () {
                 Navigator.pushReplacementNamed(context, '/home');
+                setState(() {
+                  _currentIndex = 0; // Update current index
+                });
               },
+              color: _currentIndex == 0 ? Colors.cyan : null, // Highlight if this is the selected item
             ),
             IconButton(
               icon: Icon(Icons.fitness_center),
               onPressed: () {
                 Navigator.pushReplacementNamed(context, '/workout');
+                setState(() {
+                  _currentIndex = 1; // Update current index
+                });
               },
+              color: _currentIndex == 1 ? Colors.cyan : null, // Highlight if this is the selected item
             ),
             IconButton(
               icon: Icon(Icons.settings),
               onPressed: () {
                 // Do nothing since we are already on the SettingPage
               },
+              color: _currentIndex == 2 ? Colors.cyan : null, // Highlight if this is the selected item
             ),
           ],
         ),
@@ -364,3 +374,5 @@ class NearbyLocationsPage extends StatelessWidget {
     );
   }
 }
+
+
