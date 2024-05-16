@@ -72,12 +72,12 @@ class _StretchingPageState extends State<StretchingPage> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 80),
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 80), // Adjusted padding
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Flexible(
-              flex: 3,
+              flex: 3, // Increased height of the video display screen
               child: AspectRatio(
                 aspectRatio: _controller.value.aspectRatio,
                 child: Stack(
@@ -94,7 +94,8 @@ class _StretchingPageState extends State<StretchingPage> {
                           },
                         ),
                         IconButton(
-                          icon: Icon(_isPlaying ? Icons.pause : Icons.play_arrow),
+                          icon: Icon(
+                              _isPlaying ? Icons.pause : Icons.play_arrow),
                           onPressed: _togglePlayPause,
                         ),
                         IconButton(
@@ -114,7 +115,7 @@ class _StretchingPageState extends State<StretchingPage> {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 20), // Add spacing between video player and buttons
             Flexible(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -132,20 +133,21 @@ class _StretchingPageState extends State<StretchingPage> {
                               color: Colors.grey.withOpacity(0.5),
                               spreadRadius: 2,
                               blurRadius: 5,
-                              offset: Offset(0, 3),
+                              offset:
+                              Offset(0, 3), // changes position of shadow
                             ),
                           ],
                         ),
                         child: Center(
                           child: Text(
-                            'Stretching Exercise 1',
+                            'Static Stretching',
                             style: TextStyle(fontSize: 20),
                           ),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 20), // Add spacing between tiles
                   Expanded(
                     child: GestureDetector(
                       onTap: () => _playVideo(stretchingVideos[1]),
@@ -158,20 +160,21 @@ class _StretchingPageState extends State<StretchingPage> {
                               color: Colors.grey.withOpacity(0.5),
                               spreadRadius: 2,
                               blurRadius: 5,
-                              offset: Offset(0, 3),
+                              offset:
+                              Offset(0, 3), // changes position of shadow
                             ),
                           ],
                         ),
                         child: Center(
                           child: Text(
-                            'Stretching Exercise 2',
+                            'Bicep Stretch',
                             style: TextStyle(fontSize: 20),
                           ),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 20), // Add spacing between tiles
                   Expanded(
                     child: GestureDetector(
                       onTap: () => _playVideo(stretchingVideos[2]),
@@ -184,13 +187,14 @@ class _StretchingPageState extends State<StretchingPage> {
                               color: Colors.grey.withOpacity(0.5),
                               spreadRadius: 2,
                               blurRadius: 5,
-                              offset: Offset(0, 3),
+                              offset:
+                              Offset(0, 3), // changes position of shadow
                             ),
                           ],
                         ),
                         child: Center(
                           child: Text(
-                            'Stretching Exercise 3',
+                            'Muscle Stretch',
                             style: TextStyle(fontSize: 20),
                           ),
                         ),

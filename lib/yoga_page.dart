@@ -140,7 +140,7 @@ class _YogaPageState extends State<YogaPage> {
                         ),
                         child: Center(
                           child: Text(
-                            'Yoga 1',
+                            'Surynamaskar',
                             style: TextStyle(fontSize: 20),
                           ),
                         ),
@@ -167,7 +167,7 @@ class _YogaPageState extends State<YogaPage> {
                         ),
                         child: Center(
                           child: Text(
-                            'Yoga 2',
+                            'HeadStand Pose',
                             style: TextStyle(fontSize: 20),
                           ),
                         ),
@@ -194,7 +194,7 @@ class _YogaPageState extends State<YogaPage> {
                         ),
                         child: Center(
                           child: Text(
-                            'Yoga 3',
+                            'Bond Angle Pose',
                             style: TextStyle(fontSize: 20),
                           ),
                         ),
@@ -210,3 +210,6 @@ class _YogaPageState extends State<YogaPage> {
     );
   }
 }
+
+
+

@@ -57,7 +57,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign Up', style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black)),
+        title: Text('Sign Up', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
         automaticallyImplyLeading: false, // Remove back button
       ),
       body: Center(
@@ -67,6 +67,17 @@ class _SignUpPageState extends State<SignUpPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // Logo Image with adjusted padding
+                Padding(
+                  padding: EdgeInsets.only(bottom: 16.0), // Adjust bottom padding
+                  child: Image.asset(
+                    'assets/logo.png',
+                    width: 200, // Adjust width as needed
+                    height: 200, // Adjust height as needed
+                  ),
+                ),
+
+                // Username TextField
                 TextField(
                   controller: _usernameController,
                   decoration: InputDecoration(
@@ -78,6 +89,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 SizedBox(height: 12.0),
+
+                // Email TextField
                 TextField(
                   controller: _emailController,
                   decoration: InputDecoration(
@@ -89,6 +102,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 SizedBox(height: 12.0),
+
+                // Password TextField
                 TextField(
                   controller: _passwordController,
                   decoration: InputDecoration(
@@ -119,7 +134,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     child: Text(
                       'Sign Up',
-                      style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold), // Text color
+                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold), // Text color
                     ),
                   ),
                 ),
@@ -128,7 +143,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   onPressed: _navigateToSignIn,
                   child: Text(
                     'Already have an account? Login',
-                    style: TextStyle(color:Colors.cyan),
+                    style: TextStyle(color: Colors.cyan),
                   ),
                 ),
               ],
@@ -139,6 +154,3 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 }
-
-
-
